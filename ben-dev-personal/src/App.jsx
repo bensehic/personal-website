@@ -4,7 +4,8 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import React, { useState } from "react";
-import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import darkTheme from "./styles/darkTheme";
 import lightTheme from "./styles/lightTheme";
@@ -19,11 +20,9 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <div>
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-        <main className="pt-16">
-          <Typography variant="h4">Welcome my guy!</Typography>
-        </main>
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <div className="outlet">
+        <Outlet />
       </div>
     </ThemeProvider>
   );

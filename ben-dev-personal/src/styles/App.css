@@ -2,3 +2,8 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.outlet {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
