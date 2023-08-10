@@ -5,6 +5,7 @@ import "./index.css";
 import ErrorPage from "./pages/error-page.jsx";
 import GymPage from "./pages/gym-page.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import ExercisePage from "./pages/exercise-page.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,8 @@ const router = createBrowserRouter([
         element: <GymPage />,
         children: [
           {
-            path: "test",
-            element: <div>Hello world!</div>
+            path: "exercises",
+            element: <ExercisePage />
           }
         ],
       },

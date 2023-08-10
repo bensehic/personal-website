@@ -7,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import Home from "@mui/icons-material/Home";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import DarkModeToggle from "./DarkModeToggle";
 import { Link } from "react-router-dom";
 import {
@@ -16,20 +18,24 @@ import {
   ListItemIcon,
   ListItemButton,
   SwipeableDrawer,
+  Collapse,
 } from "@mui/material";
 
 function Header({ darkMode, toggleDarkMode }) {
   const [toggleDrawer, setToggleDrawer] = React.useState(false);
 
+  const [open, setOpen] = React.useState(false);
+
   const isSmallScreen = window.innerWidth <= 640;
 
-  const MyListItem = ({ to, primaryText, icon }) => {
+  const MyListItem = ({ to, primaryText, icon, nested }) => {
     return (
       <ListItem>
         <ListItemButton
           component={Link}
           to={to}
           onClick={() => setToggleDrawer(!toggleDrawer)}
+          sx={{pl: nested ? 4 : 2}}
         >
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           <ListItemText primary={primaryText} />
@@ -57,10 +63,27 @@ function Header({ darkMode, toggleDarkMode }) {
           onOpen={() => setToggleDrawer(!toggleDrawer)}
           onClose={() => setToggleDrawer(!toggleDrawer)}
         >
-          <div className="lg:w-80 sm:w-8">
+          <div className="lg:w-80">
             <List sx={{ flexGrow: 1 }}>
               <MyListItem to="/" primaryText="Home" icon={<Home />} />
-              <MyListItem to="gym" primaryText="Gym" icon={<FitnessCenterIcon/>} />
+              <ListItem>
+                <ListItemButton onClick={() => setOpen(!open)}>
+                  <ListItemIcon>
+                    <FitnessCenterIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Gym" />
+                  {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <MyListItem
+                    to="gym/exercises"
+                    primaryText="Exercises"
+                    nested="true"
+                  />
+                </List>
+              </Collapse>
               <ListItem sx={{ justifyContent: "center" }}>
                 <DarkModeToggle
                   darkMode={darkMode}
