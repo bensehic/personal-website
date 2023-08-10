@@ -76,7 +76,7 @@ function Header({ darkMode, toggleDarkMode }) {
                 </ListItemButton>
               </ListItem>
               <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+                <List component="div" disablePadding onClick={() => {setOpen(!open)}}>
                   <MyListItem
                     to="gym/exercises"
                     primaryText="Exercises"
@@ -93,8 +93,8 @@ function Header({ darkMode, toggleDarkMode }) {
             </List>
           </div>
         </SwipeableDrawer>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Ben Sehic
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+          <Link to="/">Ben Sehic</Link>
         </Typography>
         <Button color="inherit">Login</Button>
       </Toolbar>
