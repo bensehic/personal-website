@@ -1,4 +1,5 @@
 import React from "react";
+import { useQuery, gql } from "@apollo/client";
 import {
   Grid,
   TextField,
@@ -11,66 +12,105 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
+  Backdrop,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+
+const EXERCISES = gql`
+  query GetExercises {
+    exercisesForTable {
+      id
+      name
+      reps
+      sets
+    }
+  }
+`;
 
 export default function ExercisePage() {
   const [addExercise, setAddExercise] = React.useState(false);
 
-  return (
-    <Container maxWidth="md">
-      <div className="pb-4">
-        <Button
-          variant="outlined"
-          startIcon={<AddIcon />}
-          onClick={() => setAddExercise(!addExercise)}
+  const { loading, error, data } = useQuery(EXERCISES);
+
+  if (loading) {
+    return (
+      <Container maxWidth="md">
+        <Backdrop
+          sx={{
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
+          open={loading}
         >
-          Add Exercise
-        </Button>
-      </div>
-      {addExercise && (
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Container>
+    );
+  } else {
+    return (
+      <Container maxWidth="md">
         <div className="pb-4">
-          <Grid
-            container
-            gap={4}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
+          <Button
+            variant="outlined"
+            startIcon={<AddIcon />}
+            onClick={() => setAddExercise(!addExercise)}
           >
-            <Grid>
-              <TextField id="name" label="Name" variant="outlined" />
-            </Grid>
-            <Grid>
-              <TextField
-                id="noSets"
-                label="Number of Sets"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid>
-              <TextField
-                id="noReps"
-                label="Number of Reps"
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
+            Add Exercise
+          </Button>
         </div>
-      )}
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
+        {addExercise && (
+          <div className="pb-4">
+            <Grid
+              container
+              gap={4}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid>
+                <TextField id="name" label="Name" variant="outlined" />
+              </Grid>
+              <Grid>
+                <TextField
+                  id="noSets"
+                  label="Number of Sets"
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid>
+                <TextField
+                  id="noReps"
+                  label="Number of Reps"
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+          </div>
+        )}
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell align="right">No. of Sets</TableCell>
                 <TableCell align="right">No. of Reps</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* TODO: Add data here */}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
-  );
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.exercisesForTable.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.sets}</TableCell>
+                  <TableCell align="right">{row.reps}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+    );
+  }
 }
