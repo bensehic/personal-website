@@ -5,17 +5,13 @@ import {
   TextField,
   Button,
   Container,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   CircularProgress,
   Backdrop,
 } from "@mui/material";
+import ExerciseTable from "../components/ExerciseTable";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import SaveIcon from "@mui/icons-material/Save";
 
 const EXERCISES = gql`
   query GetExercises {
@@ -51,9 +47,12 @@ export default function ExercisePage() {
     return (
       <Container maxWidth="md">
         <div className="pb-4">
+          <h1 className="text-2xl font-bold">Exercises</h1>
+        </div>
+        <div className="pb-4">
           <Button
             variant="outlined"
-            startIcon={<AddIcon />}
+            startIcon={addExercise ? <RemoveIcon /> : <AddIcon />}
             onClick={() => setAddExercise(!addExercise)}
           >
             Add Exercise
@@ -65,17 +64,24 @@ export default function ExercisePage() {
               container
               gap={4}
               direction="row"
-              justifyContent="center"
+              justifyContent="space-between"
               alignItems="center"
             >
-              <Grid>
-                <TextField id="name" label="Name" variant="outlined" />
+              <Grid xs={5}>
+                <TextField
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  variant="outlined"
+                  size="small"
+                />
               </Grid>
               <Grid>
                 <TextField
                   id="noSets"
                   label="Number of Sets"
                   variant="outlined"
+                  size="small"
                 />
               </Grid>
               <Grid>
@@ -83,33 +89,21 @@ export default function ExercisePage() {
                   id="noReps"
                   label="Number of Reps"
                   variant="outlined"
+                  size="small"
                 />
               </Grid>
             </Grid>
+            <div className="pt-4">
+              <Button variant="contained" onClick={() => {setAddExercise(false)}} startIcon={<SaveIcon />}>
+                Save
+              </Button>
+            </div>
           </div>
         )}
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">No. of Sets</TableCell>
-                <TableCell align="right">No. of Reps</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.exercisesForTable.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.sets}</TableCell>
-                  <TableCell align="right">{row.reps}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <div className="pb-4">
+          <h1 className="text-xl text-bold">List of Exercises</h1>
+        </div>
+        <ExerciseTable data={data} />
       </Container>
     );
   }

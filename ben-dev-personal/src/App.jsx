@@ -5,13 +5,17 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import React, { useState } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
+import HomePage from "./pages/home-page";
 import darkTheme from "./styles/darkTheme";
 import lightTheme from "./styles/lightTheme";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+
+  const location = useLocation();
+  const isActiveRoute = location.pathname === "/";
 
   const toggleDarkMode = () => {
     setDarkMode((prevDarkMode) => !prevDarkMode);
@@ -22,7 +26,7 @@ function App() {
       <CssBaseline />
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <div className="outlet">
-        <Outlet />
+        {isActiveRoute ? <HomePage /> : <Outlet />}
       </div>
     </ThemeProvider>
   );
