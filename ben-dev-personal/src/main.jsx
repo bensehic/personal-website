@@ -7,6 +7,7 @@ import "./index.css";
 import ErrorPage from "./pages/error-page.jsx";
 import GymPage from "./pages/gym-page.jsx";
 import ExercisePage from "./pages/exercise-page.jsx";
+import WorkoutPage from "./pages/workout-page.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,18 @@ const router = createBrowserRouter([
           {
             path: "exercises",
             element: <ExercisePage />,
+          },
+          {
+            path: "workouts",
+            element: <WorkoutPage />,
+          },
+          {
+            path: "record-workout",
+            element: <></>,
+          },
+          {
+            path: "report",
+            element: <></>,
           },
         ],
       },

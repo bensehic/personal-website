@@ -24,9 +24,11 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <div className="outlet">
-        {isActiveRoute ? <HomePage /> : <Outlet />}
+      <div className="h-screen flex flex-col bg-gradient-to-t from-gray-300">
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <div className="outlet justify-center">
+          {isActiveRoute ? <HomePage /> : <Outlet />}
+        </div>
       </div>
     </ThemeProvider>
   );

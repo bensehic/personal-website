@@ -1,17 +1,11 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import {
-  Grid,
-  TextField,
-  Button,
-  Container,
-  CircularProgress,
-  Backdrop,
-} from "@mui/material";
+import { Grid, TextField, Button, Container } from "@mui/material";
 import ExerciseTable from "../components/ExerciseTable";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SaveIcon from "@mui/icons-material/Save";
+import LoadingScreen from "../components/LoadingScreen";
 
 const EXERCISES = gql`
   query GetExercises {
@@ -29,20 +23,10 @@ export default function ExercisePage() {
 
   const { loading, error, data } = useQuery(EXERCISES);
 
+  const isSmallScreen = window.innerWidth <= 640;
+
   if (loading) {
-    return (
-      <Container maxWidth="md">
-        <Backdrop
-          sx={{
-            color: "#fff",
-            zIndex: (theme) => theme.zIndex.drawer + 1,
-          }}
-          open={loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </Container>
-    );
+    return <LoadingScreen loading={loading} />;
   } else {
     return (
       <Container maxWidth="md">
@@ -62,39 +46,47 @@ export default function ExercisePage() {
           <div className="pb-4">
             <Grid
               container
-              gap={4}
+              gap={isSmallScreen ? 1 : 1}
               direction="row"
               justifyContent="space-between"
               alignItems="center"
             >
-              <Grid xs={5}>
+              <Grid lg={12} xs={12}>
                 <TextField
-                  fullWidth
                   id="name"
                   label="Name"
                   variant="outlined"
                   size="small"
+                  fullWidth
                 />
               </Grid>
-              <Grid>
+              <Grid lg={5.9} xs={5.8}>
                 <TextField
                   id="noSets"
                   label="Number of Sets"
                   variant="outlined"
                   size="small"
+                  fullWidth
                 />
               </Grid>
-              <Grid>
+              <Grid lg={5.9} xs={5.8}>
                 <TextField
                   id="noReps"
                   label="Number of Reps"
                   variant="outlined"
                   size="small"
+                  fullWidth
                 />
               </Grid>
             </Grid>
             <div className="pt-4">
-              <Button variant="contained" onClick={() => {setAddExercise(false)}} startIcon={<SaveIcon />}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setAddExercise(false);
+                }}
+                startIcon={<SaveIcon />}
+              >
                 Save
               </Button>
             </div>

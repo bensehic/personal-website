@@ -35,7 +35,7 @@ function Header({ darkMode, toggleDarkMode }) {
           component={Link}
           to={to}
           onClick={() => setToggleDrawer(!toggleDrawer)}
-          sx={{pl: nested ? 4 : 2}}
+          sx={{ pl: nested ? 4 : 2 }}
         >
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           <ListItemText primary={primaryText} />
@@ -76,10 +76,31 @@ function Header({ darkMode, toggleDarkMode }) {
                 </ListItemButton>
               </ListItem>
               <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding onClick={() => {setOpen(!open)}}>
+                <List
+                  component="div"
+                  disablePadding
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                >
                   <MyListItem
                     to="gym/exercises"
                     primaryText="Exercises"
+                    nested="true"
+                  />
+                  <MyListItem
+                    to="gym/workouts"
+                    primaryText="Workouts"
+                    nested="true"
+                  />
+                  <MyListItem
+                    to="gym/record-workout"
+                    primaryText="Record"
+                    nested="true"
+                  />
+                  <MyListItem
+                    to="gym/report"
+                    primaryText="Report"
                     nested="true"
                   />
                 </List>
@@ -93,10 +114,14 @@ function Header({ darkMode, toggleDarkMode }) {
             </List>
           </div>
         </SwipeableDrawer>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ flexGrow: 1, textAlign: "center" }}
+        >
           <Link to="/">Ben Sehic</Link>
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit">Contact</Button>
       </Toolbar>
     </AppBar>
   );
