@@ -13,23 +13,20 @@ export default function HomePage() {
     <Container className="w-5/6 sm:w-2/5">
       <Card>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Word of the Day
-          </Typography>
           <Typography variant="h5" component="div">
             Test
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            adjective
+            This will be updated
           </Typography>
           <Typography variant="body2">
-            well meaning and kindly.
+            Some stuff here
             <br />
-            {'"a benevolent smile"'}
+            More stuff
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small">CLICK ME!</Button>
         </CardActions>
       </Card>
     </Container>

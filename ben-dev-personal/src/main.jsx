@@ -28,10 +28,12 @@ const router = createBrowserRouter([
             element: <WorkoutPage />,
           },
           {
+            // TODO: implement the element
             path: "record-workout",
             element: <></>,
           },
           {
+            // TODO: implement the element
             path: "report",
             element: <></>,
           },

@@ -21,7 +21,7 @@ async function startApolloServer() {
 const mocks = {
   Query: () => ({
     exercisesForTable: () => [...new Array(5)],
-    workoutsForTable: () => [...new Array(5)],
+    workoutsForTable: () => [...new Array(3)],
   }),
   Exercise: () => ({
     id: () => "ex_1",
