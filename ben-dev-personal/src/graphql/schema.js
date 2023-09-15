@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 const typeDefs = gql`
-  # Schema defs go here
+  # Schema defs go below here #
   type Query {
     "Get exercises array for display in table on exercise-page"
     exercisesForTable: [Exercise!]!
@@ -10,19 +10,23 @@ const typeDefs = gql`
     workoutsForTable: [Workout!]!
   }
 
-  "An exercise is a physical movement and has a number of sets and reps associated"
+  type Mutation {
+    addExercise(name: String!, rep_lower_limit: Int!, rep_upper_limit: Int!): Exercise!
+
+    addWorkout(name: String!, date: String!): Workout!
+  }
+
   type Exercise {
     id: ID!
     name: String!
-    sets: Int
-    reps: Int
-    workoutId: ID
+    rep_lower_limit: Int!
+    rep_upper_limit: Int!
   }
 
   type Workout {
     id: ID!
     name: String!
-    exercises: [Exercise!]
+    date: String!
   }
 `;
 

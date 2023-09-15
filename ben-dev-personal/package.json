@@ -8,7 +8,8 @@
     "start-server": "node src/graphql/index.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "init-db": "node src/graphql/initDatabase.js"
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
@@ -24,11 +25,14 @@
     "autoprefixer": "^10.4.14",
     "graphql": "^16.7.1",
     "graphql-tag": "^2.12.6",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
     "postcss": "^8.4.27",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
     "react-router-dom": "^6.14.2",
+    "sequelize": "^6.33.0",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {

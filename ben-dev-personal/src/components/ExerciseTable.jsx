@@ -16,8 +16,8 @@ function ExerciseTable({ data }) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell align="right">No. of Sets</TableCell>
-            <TableCell align="right">No. of Reps</TableCell>
+            <TableCell align="right">Lower Limit of Reps</TableCell>
+            <TableCell align="right">Upper Limit of Reps</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -26,8 +26,8 @@ function ExerciseTable({ data }) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.sets}</TableCell>
-              <TableCell align="right">{row.reps}</TableCell>
+              <TableCell align="right">{row.rep_lower_limit}</TableCell>
+              <TableCell align="right">{row.rep_upper_limit}</TableCell>
             </TableRow>
           ))}
         </TableBody>

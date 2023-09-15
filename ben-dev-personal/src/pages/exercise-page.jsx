@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { Grid, TextField, Button, Container } from "@mui/material";
 import ExerciseTable from "../components/ExerciseTable";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,8 +13,27 @@ const EXERCISES = gql`
     exercisesForTable {
       id
       name
-      reps
-      sets
+      rep_lower_limit
+      rep_upper_limit
+    }
+  }
+`;
+
+const ADD_EXERCISE = gql`
+  mutation AddExercise(
+    $name: String!
+    $rep_lower_limit: Int!
+    $rep_upper_limit: Int!
+  ) {
+    addExercise(
+      name: $name
+      rep_lower_limit: $rep_lower_limit
+      rep_upper_limit: $rep_upper_limit
+    ) {
+      id
+      name
+      rep_lower_limit
+      rep_upper_limit
     }
   }
 `;
@@ -22,9 +41,11 @@ const EXERCISES = gql`
 export default function ExercisePage() {
   const [addExercise, setAddExercise] = React.useState(false);
 
-  const { loading, error, data } = useQuery(EXERCISES);
+  const { loading, error, data, refetch } = useQuery(EXERCISES);
 
   const isSmallScreen = window.innerWidth <= 640;
+
+  const [addExerciseEntry] = useMutation(ADD_EXERCISE);
 
   const {
     handleSubmit,
@@ -34,13 +55,18 @@ export default function ExercisePage() {
   } = useForm({
     defaultValues: {
       name: "",
-      noSets: "",
-      noReps: "",
+      rep_lower_limit: "",
+      rep_upper_limit: "",
     },
   });
-  const onSubmit = (data) => {
-    // TODO: Implement logic to actually save the data
-    console.log(data);
+  const onSubmit = async (data) => {
+    data.rep_lower_limit = parseInt(data.rep_lower_limit, 10);
+    data.rep_upper_limit = parseInt(data.rep_upper_limit, 10);
+
+    await addExerciseEntry({ variables: data });
+
+    refetch();
+
     reset();
     setAddExercise(false);
   };
@@ -72,7 +98,7 @@ export default function ExercisePage() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Grid lg={12} xs={12}>
+                <Grid item lg={12} xs={12}>
                   <Controller
                     render={({ field }) => (
                       <TextField
@@ -96,23 +122,24 @@ export default function ExercisePage() {
                     }}
                   />
                 </Grid>
-                <Grid lg={5.9} xs={5.8}>
+                <Grid item lg={5.9} xs={5.8}>
                   <Controller
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        label="Number of Sets"
+                        label="Lower Limit of Reps"
                         variant="outlined"
                         size="small"
+                        type="number"
                         fullWidth
                         error={!!errors.noSets}
                         helperText={errors.noSets?.message}
                       />
                     )}
-                    name="noSets"
+                    name="rep_lower_limit"
                     control={control}
                     rules={{
-                      required: "Number of sets is required",
+                      required: "Lower limit of reps is required",
                       maxLength: {
                         value: 3,
                         message: "Number of sets cannot exceed 999",
@@ -120,23 +147,24 @@ export default function ExercisePage() {
                     }}
                   />
                 </Grid>
-                <Grid lg={5.9} xs={5.8}>
+                <Grid item lg={5.9} xs={5.8}>
                   <Controller
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        label="Number of Reps"
+                        label="Upper Limit of Reps"
                         variant="outlined"
                         size="small"
+                        type="number"
                         fullWidth
                         error={!!errors.noReps}
                         helperText={errors.noReps?.message}
                       />
                     )}
-                    name="noReps"
+                    name="rep_upper_limit"
                     control={control}
                     rules={{
-                      required: "Number of reps is required",
+                      required: "Upper limit of reps is required",
                       maxLength: {
                         value: 3,
                         message: "Number of reps cannot exceed 999",
