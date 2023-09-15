@@ -11,7 +11,7 @@ const Exercise = sequelize.define("exercise", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
   },
   name: {
     type: DataTypes.STRING,
@@ -27,19 +27,19 @@ const Exercise = sequelize.define("exercise", {
   },
   createdAt: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.fn('NOW')
+    defaultValue: Sequelize.fn("NOW"),
   },
   updatedAt: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.fn('NOW')
-  }
+    defaultValue: Sequelize.fn("NOW"),
+  },
 });
 
 const Workout = sequelize.define("workout", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
   },
   name: {
     type: DataTypes.STRING,
@@ -47,18 +47,60 @@ const Workout = sequelize.define("workout", {
   },
   date: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
   },
   createdAt: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.fn('NOW')
+    defaultValue: Sequelize.fn("NOW"),
   },
   updatedAt: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.fn('NOW')
-  }
-})
+    defaultValue: Sequelize.fn("NOW"),
+  },
+});
+
+const Set = sequelize.define("sets", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  workout_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "workouts",
+      key: "id",
+    },
+  },
+  exercise_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "exercises",
+      key: "id",
+    },
+  },
+  set_number: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  weight: {
+    type: DataTypes.DECIMAL,
+  },
+  reps: {
+    type: DataTypes.INTEGER,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.fn("NOW"),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.fn("NOW"),
+  },
+});
 
 sequelize.sync();
 
-export { Exercise, Workout };
+export { Exercise, Workout, Set };

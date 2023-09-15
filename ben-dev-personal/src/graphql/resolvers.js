@@ -1,4 +1,4 @@
-import { Exercise, Workout } from "./connectors.js";
+import { Exercise, Workout, Set } from "./connectors.js";
 
 const resolvers = {
   Query: {
@@ -7,6 +7,9 @@ const resolvers = {
     },
     workoutsForTable: async () => {
       return await Workout.findAll();
+    },
+    setsForTable: async () => {
+      return await Set.findAll();
     },
   },
   Mutation: {
@@ -31,6 +34,20 @@ const resolvers = {
         return workout;
       } catch (error) {
         throw new Error("Failed to add workout: ${error.message}");
+      }
+    },
+    addSet: async (_, args) => {
+      try {
+        const set = await Set.create({
+          workout_id: args.workout_id,
+          exercise_id: args.exercise_id,
+          set_number: args.set_number,
+          weight: args.weight,
+          reps: args.reps,
+        });
+        return set;
+      } catch (error) {
+        throw new Error("Failed to add set: ${error.message}");
       }
     },
   },
