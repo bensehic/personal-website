@@ -132,8 +132,8 @@ export default function ExercisePage() {
                         size="small"
                         type="number"
                         fullWidth
-                        error={!!errors.noSets}
-                        helperText={errors.noSets?.message}
+                        error={!!errors.rep_lower_limit}
+                        helperText={errors.rep_lower_limit?.message}
                       />
                     )}
                     name="rep_lower_limit"
@@ -157,8 +157,8 @@ export default function ExercisePage() {
                         size="small"
                         type="number"
                         fullWidth
-                        error={!!errors.noReps}
-                        helperText={errors.noReps?.message}
+                        error={!!errors.rep_upper_limit}
+                        helperText={errors.rep_upper_limit?.message}
                       />
                     )}
                     name="rep_upper_limit"
