@@ -8,6 +8,7 @@ import ErrorPage from "./pages/error-page.jsx";
 import GymPage from "./pages/gym-page.jsx";
 import ExercisePage from "./pages/exercise-page.jsx";
 import WorkoutPage from "./pages/workout-page.jsx";
+import RecordPage from "./pages/record-page.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,9 +29,8 @@ const router = createBrowserRouter([
             element: <WorkoutPage />,
           },
           {
-            // TODO: implement the element
             path: "record-workout",
-            element: <></>,
+            element: <RecordPage />,
           },
           {
             // TODO: implement the element

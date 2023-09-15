@@ -59,6 +59,7 @@ export default function ExercisePage() {
       rep_upper_limit: "",
     },
   });
+
   const onSubmit = async (data) => {
     data.rep_lower_limit = parseInt(data.rep_lower_limit, 10);
     data.rep_upper_limit = parseInt(data.rep_upper_limit, 10);
@@ -116,8 +117,8 @@ export default function ExercisePage() {
                     rules={{
                       required: "Name is required",
                       maxLength: {
-                        value: 256,
-                        message: "Name cannot exceed 256 characters",
+                        value: 255,
+                        message: "Name cannot exceed 255 characters",
                       },
                     }}
                   />
