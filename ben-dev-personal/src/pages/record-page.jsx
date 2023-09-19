@@ -53,11 +53,13 @@ export default function RecordPage() {
 
   const handleSelectedWorkout = (event) => {
     setSelectedWorkout(event.name);
+
     // Can now do stuff with the event object such as get the ID, etc.
   };
 
   const handleSelectedExercise = (event) => {
     setSelectedExercise(event.name);
+    
     // Can now do stuff with the event object such as get the ID, etc.
   };
 
@@ -111,6 +113,7 @@ export default function RecordPage() {
         <div className="pb-4">
           <h1 className="text-xl text-bold">List of Sets</h1>
         </div>
+
         {/* <SetsTable data={data} /> */}
       </Container>
     );
