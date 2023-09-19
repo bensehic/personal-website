@@ -149,7 +149,7 @@ export default function WorkoutPage() {
         <div className="pb-4">
           <h1 className="text-xl text-bold">List of Workouts</h1>
         </div>
-        <WorkoutTable data={data}/>
+        <WorkoutTable data={data} />
       </Container>
     );
   }
