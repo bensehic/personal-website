@@ -9,7 +9,18 @@ const resolvers = {
       return await Workout.findAll();
     },
     setsForTable: async () => {
-      return await Set.findAll();
+      try {
+        const data = await Set.findAll({
+          // PROBLEM IS HERE!!!!! FML
+          include: [Workout, Exercise],
+        });
+        return data;
+        // return await Set.findAll({
+        //   include: [Workout, Exercise],
+        // });
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
   Mutation: {
@@ -39,15 +50,15 @@ const resolvers = {
     addSet: async (_, args) => {
       try {
         const set = await Set.create({
-          workout_id: args.workout_id,
-          exercise_id: args.exercise_id,
+          workoutId: args.workoutId,
+          exerciseId: args.exerciseId,
           set_number: args.set_number,
           weight: args.weight,
           reps: args.reps,
         });
         return set;
       } catch (error) {
-        throw new Error("Failed to add set: ${error.message}");
+        throw new Error("Failed to add set: ", error.message);
       }
     },
   },

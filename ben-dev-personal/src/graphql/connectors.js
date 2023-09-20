@@ -59,13 +59,13 @@ const Workout = sequelize.define("workout", {
   },
 });
 
-const Set = sequelize.define("sets", {
+const Set = sequelize.define("set", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  workout_id: {
+  workoutId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -73,7 +73,7 @@ const Set = sequelize.define("sets", {
       key: "id",
     },
   },
-  exercise_id: {
+  exerciseId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -100,6 +100,9 @@ const Set = sequelize.define("sets", {
     defaultValue: Sequelize.fn("NOW"),
   },
 });
+
+Set.belongsTo(Workout);
+Set.belongsTo(Exercise);
 
 sequelize.sync();
 

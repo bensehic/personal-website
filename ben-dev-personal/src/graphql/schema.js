@@ -23,8 +23,8 @@ const typeDefs = gql`
     addWorkout(name: String!, date: String!): Workout!
 
     addSet(
-      workout_id: ID!
-      exercise_id: ID!
+      workoutId: ID!
+      exerciseId: ID!
       set_number: Int!
       weight: Float
       reps: Int!
@@ -46,11 +46,11 @@ const typeDefs = gql`
 
   type Set {
     id: ID!
-    workout_id: Workout!
-    exercise_id: Exercise!
+    workoutId: Workout!
+    exerciseId: Exercise!
     set_number: Int!
     weight: Float
-    reps: Int
+    reps: Int!
   }
 `;
 

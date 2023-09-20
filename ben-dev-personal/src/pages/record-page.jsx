@@ -10,11 +10,12 @@ import SetForm from "../components/SetForm";
 const SETS = gql`
   query GetSets {
     setsForTable {
-      workout_id {
+      id
+      workoutId {
         id
         name
       }
-      exercise_id {
+      exerciseId {
         id
         name
       }
@@ -46,21 +47,62 @@ const EXERCISES = gql`
   }
 `;
 
+const ADD_SET = gql`
+  mutation AddSet(
+    $workoutId: ID!
+    $exerciseId: ID!
+    $set_number: Int!
+    $reps: Int!
+    $weight: Float
+  ) {
+    addSet(
+      workoutId: $workoutId
+      exerciseId: $exerciseId
+      set_number: $set_number
+      reps: $reps
+      weight: $weight
+    ) {
+      workoutId {
+        id
+      }
+      exerciseId {
+        id
+      }
+      set_number
+      reps
+      weight
+    }
+  }
+`;
+
 export default function RecordPage() {
   const [addSet, setAddSet] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState("");
   const [selectedExercise, setSelectedExercise] = useState("");
+  const [selectedWorkoutId, setSelectedWorkoutId] = useState("");
+  const [selectedExerciseId, setSelectedExerciseId] = useState("");
+
+  const [addSetEntry] = useMutation(ADD_SET);
 
   const handleSelectedWorkout = (event) => {
     setSelectedWorkout(event.name);
-
-    // Can now do stuff with the event object such as get the ID, etc.
+    setSelectedWorkoutId(event.id);
   };
 
   const handleSelectedExercise = (event) => {
     setSelectedExercise(event.name);
-    
-    // Can now do stuff with the event object such as get the ID, etc.
+    setSelectedExerciseId(event.id);
+  };
+
+  const handleSaveSet = async (data) => {
+    await addSetEntry({
+      variables: {
+        ...data,
+        workoutId: selectedWorkoutId,
+        exerciseId: selectedExerciseId,
+      },
+    });
+    // refetch();
   };
 
   const {
@@ -69,11 +111,13 @@ export default function RecordPage() {
     data: dataSets,
     refetch,
   } = useQuery(SETS);
+
   const {
     loading: loadingWorkouts,
     error: errorWorkouts,
     data: dataWorkouts,
   } = useQuery(WORKOUTS);
+
   const {
     loading: loadingExercises,
     error: errorExercises,
@@ -108,13 +152,14 @@ export default function RecordPage() {
             onExerciseChange={handleSelectedExercise}
             selectedWorkout={selectedWorkout}
             onWorkoutChange={handleSelectedWorkout}
+            dataToSave={handleSaveSet}
           />
         )}
         <div className="pb-4">
           <h1 className="text-xl text-bold">List of Sets</h1>
         </div>
 
-        {/* <SetsTable data={data} /> */}
+        {/* <SetsTable data={dataSets} /> */}
       </Container>
     );
   }

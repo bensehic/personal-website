@@ -8,6 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  FormHelperText,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 
@@ -19,6 +20,7 @@ function FormComponent({
   onExerciseChange,
   selectedWorkout,
   onWorkoutChange,
+  dataToSave
 }) {
   const [exerciseObject, setExerciseObject] = useState("");
 
@@ -38,12 +40,16 @@ function FormComponent({
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const saveObject = {
+      reps: Number(data.reps),
+      set_number: Number(data.set),
+      weight: Number(data.weight)
+    }
+    dataToSave(saveObject)
+
+    // TODO: implement ability to only reset explicit fields (set, reps, weight)
     reset();
   };
-
-  // TODO: Implement logic that requires Workout and Exercise objects to be selected
-  // Implement prop to pass set, rep, weight back to the parent component for use in GraphQL query
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -56,12 +62,13 @@ function FormComponent({
           alignItems="center"
         >
           <Grid item lg={5.8} xs={12}>
-            <FormControl fullWidth>
+            <FormControl fullWidth error={errors.workout ? true : false}>
               <InputLabel>Select Workout</InputLabel>
               <Controller
                 name="workout"
                 control={control}
                 defaultValue={selectedWorkout}
+                rules={{ required: true }}
                 render={({ field }) => (
                   <Select
                     {...field}
@@ -82,15 +89,21 @@ function FormComponent({
                   </Select>
                 )}
               />
+              {errors.workout ? (
+                <FormHelperText>Workout is Required</FormHelperText>
+              ) : (
+                ""
+              )}
             </FormControl>
           </Grid>
           <Grid item lg={5.8} xs={12}>
-            <FormControl fullWidth>
+            <FormControl fullWidth error={errors.exercise ? true : false}>
               <InputLabel>Select Exercise</InputLabel>
               <Controller
                 name="exercise"
                 control={control}
                 defaultValue={selectedExercise}
+                rules={{ required: true }}
                 render={({ field }) => (
                   <Select
                     {...field}
@@ -113,6 +126,11 @@ function FormComponent({
                   </Select>
                 )}
               />
+              {errors.exercise ? (
+                <FormHelperText>Exercise is Required</FormHelperText>
+              ) : (
+                ""
+              )}
             </FormControl>
           </Grid>
           <Grid item lg={12} xs={12}>
@@ -156,7 +174,7 @@ function FormComponent({
               name="set"
               control={control}
               rules={{
-                required: "Set number is required",
+                required: "Set required",
                 maxLength: {
                   value: 2,
                   message: "Set number cannot exceed 99",
@@ -180,7 +198,7 @@ function FormComponent({
               name="reps"
               control={control}
               rules={{
-                required: "Number of reps is required",
+                required: "Reps required",
                 maxLength: {
                   value: 2,
                   message: "Number of reps cannot exceed 99",
