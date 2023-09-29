@@ -33,31 +33,39 @@ const Exercise = sequelize.define("exercise", {
     type: DataTypes.DATE,
     defaultValue: Sequelize.fn("NOW"),
   },
+}, {
+  tableName: 'exercises'
 });
 
-const Workout = sequelize.define("workout", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+const Workout = sequelize.define(
+  "workout",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.fn("NOW"),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.fn("NOW"),
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  date: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.fn("NOW"),
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.fn("NOW"),
-  },
-});
+  {
+    tableName: "workouts",
+  }
+);
 
 const Set = sequelize.define("set", {
   id: {
@@ -99,6 +107,8 @@ const Set = sequelize.define("set", {
     type: DataTypes.DATE,
     defaultValue: Sequelize.fn("NOW"),
   },
+}, {
+  tableName: 'sets'
 });
 
 Set.belongsTo(Workout);

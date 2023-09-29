@@ -11,11 +11,11 @@ const SETS = gql`
   query GetSets {
     setsForTable {
       id
-      workoutId {
+      workout {
         id
         name
       }
-      exerciseId {
+      exercise {
         id
         name
       }
@@ -102,7 +102,7 @@ export default function RecordPage() {
         exerciseId: selectedExerciseId,
       },
     });
-    // refetch();
+    refetch();
   };
 
   const {
@@ -159,7 +159,7 @@ export default function RecordPage() {
           <h1 className="text-xl text-bold">List of Sets</h1>
         </div>
 
-        {/* <SetsTable data={dataSets} /> */}
+        <SetsTable data={dataSets} />
       </Container>
     );
   }

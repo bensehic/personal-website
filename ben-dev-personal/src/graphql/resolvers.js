@@ -10,16 +10,38 @@ const resolvers = {
     },
     setsForTable: async () => {
       try {
-        const data = await Set.findAll({
-          // PROBLEM IS HERE!!!!! FML
-          include: [Workout, Exercise],
-        });
-        return data;
-        // return await Set.findAll({
-        //   include: [Workout, Exercise],
-        // });
+        const data = await Set.findAll();
+
+        const setsWithDetails = await Promise.all(
+          data.map(async (set) => {
+            const workout = await Workout.findByPk(set.workoutId);
+            const exercise = await Exercise.findByPk(set.exerciseId);
+            return {
+              ...set.dataValues,
+              workout,
+              exercise,
+            };
+          })
+        );
+        return setsWithDetails;
       } catch (err) {
-        console.log(err);
+        throw new Error("Failed to fetch data: " + err.message);
+      }
+    },
+    getWorkoutById: async (parent, { id }) => {
+      try {
+        const workout = await Workout.findByPk(id);
+        return workout;
+      } catch (err) {
+        throw new Error("Failed to fetch workout by ID: " + err.message);
+      }
+    },
+    getExerciseById: async (parent, { id }) => {
+      try {
+        const exercise = await Exercise.findByPk(id);
+        return exercise;
+      } catch (err) {
+        throw new Error("Faield to fetch exercise by ID: " + err.message);
       }
     },
   },
@@ -50,8 +72,8 @@ const resolvers = {
     addSet: async (_, args) => {
       try {
         const set = await Set.create({
-          workoutId: args.workoutId,
-          exerciseId: args.exerciseId,
+          workout: args.workoutId,
+          exercise: args.exerciseId,
           set_number: args.set_number,
           weight: args.weight,
           reps: args.reps,

@@ -4,13 +4,19 @@ const typeDefs = gql`
   # Schema defs go below here #
   type Query {
     "Get exercises array for display in table on exercise-page"
-    exercisesForTable: [Exercise!]!
+    exercisesForTable: [exercise!]!
 
     "Get workouts array for display in table on workout-page"
-    workoutsForTable: [Workout!]!
+    workoutsForTable: [workout!]!
 
     "Get sets array for display in table on record-page"
-    setsForTable: [Set!]!
+    setsForTable: [set!]!
+
+    "Get workout by ID"
+    getWorkoutById(id: ID!): workout!
+
+    "Get exercise by ID"
+    getExerciseById(id: ID!): exercise!
   }
 
   type Mutation {
@@ -18,9 +24,9 @@ const typeDefs = gql`
       name: String!
       rep_lower_limit: Int!
       rep_upper_limit: Int!
-    ): Exercise!
+    ): exercise!
 
-    addWorkout(name: String!, date: String!): Workout!
+    addWorkout(name: String!, date: String!): workout!
 
     addSet(
       workoutId: ID!
@@ -28,26 +34,26 @@ const typeDefs = gql`
       set_number: Int!
       weight: Float
       reps: Int!
-    ): Set!
+    ): set!
   }
 
-  type Exercise {
+  type exercise {
     id: ID!
     name: String!
     rep_lower_limit: Int!
     rep_upper_limit: Int!
   }
 
-  type Workout {
+  type workout {
     id: ID!
     name: String!
     date: String!
   }
 
-  type Set {
+  type set {
     id: ID!
-    workoutId: Workout!
-    exerciseId: Exercise!
+    workout: workout!
+    exercise: exercise!
     set_number: Int!
     weight: Float
     reps: Int!

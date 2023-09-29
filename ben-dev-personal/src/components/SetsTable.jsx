@@ -15,8 +15,8 @@ function SetsTable({ data }) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Workout ID</TableCell>
-            <TableCell>Exercise ID</TableCell>
+            <TableCell>Workout</TableCell>
+            <TableCell>Exercise</TableCell>
             <TableCell>Set Number</TableCell>
             <TableCell>Weight</TableCell>
             <TableCell>Reps</TableCell>
@@ -26,9 +26,9 @@ function SetsTable({ data }) {
           {data.setsForTable.map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.workout_id}
+                {row.workout.name}
               </TableCell>
-              <TableCell>{row.exercise_id}</TableCell>
+              <TableCell>{row.exercise.name}</TableCell>
               <TableCell>{row.set_number}</TableCell>
               <TableCell>{row.weight}</TableCell>
               <TableCell>{row.reps}</TableCell>
