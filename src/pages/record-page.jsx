@@ -47,6 +47,8 @@ const EXERCISES = gql`
   }
 `;
 
+
+// TODO: Fix ADD SET mutation
 const ADD_SET = gql`
   mutation AddSet(
     $workoutId: ID!
